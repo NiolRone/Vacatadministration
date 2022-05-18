@@ -6,14 +6,14 @@ Création: maurelji, le 13/05/2022
 
 
 # Imports
+from flask import Flask, render_template, request, redirect, url_for, flash
 
-# Fonctions
+# Routes
+app = Flask(__name__)
 
-# Programme principal
-def main():
-    pass
-
+@app.route("/")
+def home():
+    return render_template("home.html")
 
 if __name__ == '__main__':
-    main()
-# Fin
+    app.run(debug=True, port=5001)

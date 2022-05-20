@@ -4,6 +4,7 @@ import bcrypt
 
 
 def get_db():
+    """Open a new database connection if there is none yet for the current application context"""
     if 'db' not in g:
         g.db = sqlite3.connect(current_app.config['DATABASE'])
         g.db.row_factory = sqlite3.Row
@@ -12,13 +13,15 @@ def get_db():
 
 
 def close_db(e=None):
+    """Close database connection on app teardown"""
     db = g.pop('db', None)
     if db is not None:
         db.close()
         current_app.logger.info(f'Déconnexion de la BDD')
 
 
-def get_data():
+def get_vacataires():
+    """Get all vacataires from database"""
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""SELECT * FROM vacataires""")
@@ -26,6 +29,7 @@ def get_data():
 
 
 def get_user(user):
+    """Get data of an user by login"""
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""SELECT login, mdp, role FROM comptes
@@ -36,14 +40,18 @@ def get_user(user):
 
 
 def password_hash(password):
+    """Hash a password for storing"""
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode("utf-8")
 
 
 def password_verify(password, hash):
+    """Verify a stored password against one provided by user"""
     return bcrypt.checkpw(password.encode('utf-8'),
                           hash.encode('utf-8') if isinstance(hash, str) else hash)
 
 
 def check_login(login, password):
+    """Check if login and password are correct"""
     user = get_user(login)
     return user is not None and password_verify(password, user['mdp'])
+

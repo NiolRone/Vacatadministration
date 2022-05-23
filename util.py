@@ -79,6 +79,30 @@ def get_user(user):
     return user
 
 
+def add_compte(compte):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("""INSERT INTO comptes (login, mdp, role) VALUES (:login, :password, :role)""")
+        current_app.logger.info(f'Compte {compte} ajouté')
+        db.commit()
+    except sqlite3.Error as e:
+        current_app.logger.error(f"Impossible d'ajouter {compte}")
+
+
+def add_vacataire(vacataire):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("""INSERT INTO vacataires (nom, prenom, email, tel, statut, employeur,
+        login, recrutable) VALUES (:nom, :prenom, :email, :tel, :statut, :employeur,
+        :login, :recrutable)""", vacataire)
+        db.commit()
+        current_app.logger.info(f'Utilisateur {vacataire["nom"], vacataire["prenom"]} ajouté')
+    except sqlite3.Error as e:
+        current_app.logger.error(f"Impossible d'ajouter {vacataire}")
+
+
 def password_hash(password):
     """Hash a password for storing"""
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode("utf-8")

@@ -4,7 +4,6 @@ Script: sae23/app
 Création: maurelji, le 13/05/2022
 """
 
-
 # Imports
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 import util
@@ -45,19 +44,32 @@ def logout():
         flash('Déconnexion réussie', 'success')
     return redirect(url_for('login'))
 
+
 @app.route('/vacataires/add', methods=['GET', 'POST'])
 def add_vacataire():
     if request.method == 'GET':
         return render_template('add_vacataire.html')
-    nom = request.form.get('nom')
-    prenom = request.form.get('prenom')
-    email = request.form.get('email')
-    tel = request.form.get('tel')
-    statut = request.form.get('statut')
-    employeur = request.form.get('employeur')
-    login = request.form.get('login')
-    recrutable = request.form.get('recrutable')
-    flash("Vacataire ajouté", "success")
+    else:
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        email = request.form.get('email')
+        tel = request.form.get('tel')
+        statut = request.form.get('statut')
+        employeur = request.form.get('employeur')
+        login = request.form.get('login')
+        recrutable = request.form.get('recrutable')
+        password = util.password_hash('vacataire')
+
+        compte = {'login': login, 'password': password, 'role': 'vacataire'}
+
+        vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel,
+                     'statut': statut if statut else '', 'employeur': employeur if employeur else '', 'login': login,
+                     'recrutable': 1 if recrutable else 0}
+
+        util.add_compte(compte)
+        util.add_vacataire(vacataire)
+
+        flash("Vacataire ajouté", "success")
     return redirect(url_for('home'))
 
 @app.route('/enseignants/add', methods=['GET', 'POST'])

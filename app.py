@@ -44,6 +44,22 @@ def logout():
         flash('Déconnexion réussie', 'success')
     return redirect(url_for('login'))
 
+@app.route('/vacataires/add', methods=['GET', 'POST'])
+def add_vacataire():
+    if request.method == 'GET':
+        return render_template('add_vacataire.html')
+    nom = request.form.get('nom')
+    prenom = request.form.get('prenom')
+    email = request.form.get('email')
+    tel = request.form.get('tel')
+    statut = request.form.get('statut')
+    employeur = request.form.get('employeur')
+    login = request.form.get('login')
+    recrutable = request.form.get('recrutable')
+    flash("Vacataire ajouté", "success")
+    return redirect(url_for('home'))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

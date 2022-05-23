@@ -28,6 +28,46 @@ def get_vacataires():
     return cursor.fetchall()
 
 
+def get_ensignants():
+    """Get all enseignants from database"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT * FROM enseignants""")
+    return cursor.fetchall()
+
+
+def get_modules():
+    """Get all modules from database"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT * FROM modules""")
+    return cursor.fetchall()
+
+
+def get_interventions():
+    """Get all interventions from database"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT * FROM interventions""")
+    return cursor.fetchall()
+
+
+def get_contrats():
+    """Get all contrats from database"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT * FROM contrats""")
+    return cursor.fetchall()
+
+
+def get_comptes():
+    """Get all contrats from database"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT login, role FROM comptes""")
+    return cursor.fetchall()
+
+
 def get_user(user):
     """Get data of an user by login"""
     db = get_db()

@@ -17,6 +17,7 @@ app.config['DATABASE'] = 'bdd/bdd_v2.sqlite'
 app.teardown_appcontext(util.close_db)
 csrf = CSRFProtect(app)
 
+
 # Routes
 @app.route("/")
 def home():
@@ -59,6 +60,36 @@ def add_vacataire():
     flash("Vacataire ajouté", "success")
     return redirect(url_for('home'))
 
+
+
+@app.route('/enseignants')
+def liste_enseignants():
+    return render_template(f'enseignants.html', enseignants=util.get_ensignants())
+
+
+@app.route('/vacataires')
+def liste_vacataires():
+    return render_template(f'vacataires.html', vacataires=util.get_vacataires())
+
+
+@app.route('/modules')
+def liste_modules():
+    return render_template(f'modules.html', modules=util.get_modules())
+
+
+@app.route('/interventions')
+def liste_interventions():
+    return render_template(f'interventions.html', interventions=util.get_interventions())
+
+
+@app.route('/contrats')
+def liste_contrats():
+    return render_template(f'contrats.html', contrats=util.get_contrats())
+
+
+@app.route('/comptes')
+def liste_comptes():
+    return render_template(f'comptes.html', comptes=util.get_comptes())
 
 
 if __name__ == '__main__':

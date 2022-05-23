@@ -1,5 +1,5 @@
 import sqlite3
-from flask import current_app, g
+from flask import current_app, g, flash
 import bcrypt
 
 
@@ -83,10 +83,12 @@ def add_compte(compte):
     db = get_db()
     cursor = db.cursor()
     try:
-        cursor.execute("""INSERT INTO comptes (login, mdp, role) VALUES (:login, :password, :role)""")
+        cursor.execute("""INSERT INTO comptes (login, mdp, role) VALUES (:login, :password, :role)""", compte)
         current_app.logger.info(f'Compte {compte} ajouté')
         db.commit()
+        return True
     except sqlite3.Error as e:
+        print(e)
         current_app.logger.error(f"Impossible d'ajouter {compte}")
 
 
@@ -98,7 +100,8 @@ def add_vacataire(vacataire):
         login, recrutable) VALUES (:nom, :prenom, :email, :tel, :statut, :employeur,
         :login, :recrutable)""", vacataire)
         db.commit()
-        current_app.logger.info(f'Utilisateur {vacataire["nom"], vacataire["prenom"]} ajouté')
+        current_app.logger.info(f'Utilisateur {vacataire} ajouté')
+        flash("Vacataire ajouté", "success")
     except sqlite3.Error as e:
         current_app.logger.error(f"Impossible d'ajouter {vacataire}")
 

@@ -59,18 +59,15 @@ def add_vacataire():
         login = request.form.get('login')
         recrutable = request.form.get('recrutable')
         password = util.password_hash('vacataire')
-
         compte = {'login': login, 'password': password, 'role': 'vacataire'}
 
-        vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel,
-                     'statut': statut if statut else '', 'employeur': employeur if employeur else '', 'login': login,
-                     'recrutable': 1 if recrutable else 0}
+        vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'statut': statut,
+                     'employeur': employeur, 'login': login, 'recrutable': 1 if recrutable else 0}
 
-        util.add_compte(compte)
-        util.add_vacataire(vacataire)
-
-        flash("Vacataire ajouté", "success")
+        if util.add_compte(compte):
+            util.add_vacataire(vacataire)
     return redirect(url_for('home'))
+
 
 @app.route('/enseignants/add', methods=['GET', 'POST'])
 def add_enseignant():

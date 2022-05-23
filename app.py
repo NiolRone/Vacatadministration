@@ -60,6 +60,28 @@ def add_vacataire():
     flash("Vacataire ajouté", "success")
     return redirect(url_for('home'))
 
+@app.route('/enseignants/add', methods=['GET', 'POST'])
+def add_enseignant():
+    if request.method == 'GET':
+        return render_template('add_enseignant.html')
+    nom = request.form.get('nom')
+    prenom = request.form.get('prenom')
+    email = request.form.get('email')
+    tel = request.form.get('tel')
+    login = request.form.get('login')
+    flash("Enseignant ajouté", "success")
+    return redirect(url_for('liste_enseignants'))
+
+@app.route('/contrats/add', methods=['GET', 'POST'])
+def add_contrat():
+    if request.method == 'GET':
+        return render_template('add_contrat.html')
+    date_debut = request.form.get('date_deb')
+    date_fin = request.form.get('date_fin')
+    nom_referent = request.form.get('nom_referent')
+    nom_vacataire = request.form.get('nom_vacataire')
+    flash("Contrat ajouté", "success")
+    return redirect(url_for('home'))
 
 
 @app.route('/enseignants')

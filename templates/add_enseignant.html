@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %} Ajouter un vacataire {% endblock %}
+{% block title %} Ajouter un enseignant {% endblock %}
 {% block main %}
 <section class="gradiant-add vh-100">
     <div class="container h-100">
@@ -11,7 +11,8 @@
         <div class="row justify-content-md-center mt-5">
             <div class="col-md-auto card bg-dark text-white" style="border-radius: 1rem; padding:10pt;">
                 <!-- Formulaire -->
-                <form>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-md-auto">
                             <div class="form-group">
@@ -54,7 +55,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-auto">
                             <div class="form-group">
-                                <button class="btn btn-outline-light btn-lg" type="submit">Connexion</button>
+                                <button class="btn btn-outline-light btn-lg" type="submit">Ajouter</button>
                                 <button class="btn btn-outline-light btn-lg" type="reset">Effacer</button>
                             </div>
                         </div>

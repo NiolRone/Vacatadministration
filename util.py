@@ -86,7 +86,6 @@ def add_compte(compte):
         cursor.execute("""INSERT INTO comptes (login, mdp, role) VALUES (:login, :password, :role)""", compte)
         current_app.logger.info(f'Compte {compte} ajouté')
         db.commit()
-        return True
     except sqlite3.Error as e:
         print(e)
         current_app.logger.error(f"Impossible d'ajouter {compte}")
@@ -104,6 +103,19 @@ def add_vacataire(vacataire):
         flash("Vacataire ajouté", "success")
     except sqlite3.Error as e:
         current_app.logger.error(f"Impossible d'ajouter {vacataire}")
+
+
+def add_enseignant(enseignant):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("""INSERT INTO enseignants (nom, prenom, email, tel, login) 
+                            VALUES (:nom, :prenom, :email, :tel, :login)""", enseignant)
+        db.commit()
+        current_app.logger.info(f'Utilisateur {enseignant} ajouté')
+        flash("Enseignant ajouté", "success")
+    except sqlite3.Error as e:
+        current_app.logger.error(f"Impossible d'ajouter {enseignant}")
 
 
 def password_hash(password):

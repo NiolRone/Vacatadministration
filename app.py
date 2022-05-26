@@ -45,31 +45,31 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/vacataires/add', methods=['GET', 'POST'])
+@app.route('/add/vacataires', methods=['GET', 'POST'])
 def add_vacataire():
     if request.method == 'GET':
         return render_template('add_vacataire.html')
-    else:
-        nom = request.form.get('nom')
-        prenom = request.form.get('prenom')
-        email = request.form.get('email')
-        tel = request.form.get('tel')
-        statut = request.form.get('statut')
-        employeur = request.form.get('employeur')
-        login = request.form.get('login')
-        recrutable = request.form.get('recrutable')
-        password = util.password_hash('vacataire')
+    nom = request.form.get('nom')
+    prenom = request.form.get('prenom')
+    email = request.form.get('email')
+    tel = request.form.get('tel')
+    statut = request.form.get('statut')
+    employeur = request.form.get('employeur')
+    login = request.form.get('login')
+    recrutable = request.form.get('recrutable')
+    password = util.password_hash('vacataire')
+    if login:
         compte = {'login': login, 'password': password, 'role': 'vacataire'}
+        util.add_compte(compte)
 
-        vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'statut': statut,
-                     'employeur': employeur, 'login': login, 'recrutable': 1 if recrutable else 0}
+    vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'statut': statut,
+                 'employeur': employeur, 'login': login, 'recrutable': 1 if recrutable else 0}
 
-        if util.add_compte(compte):
-            util.add_vacataire(vacataire)
+    util.add_vacataire(vacataire)
     return redirect(url_for('home'))
 
 
-@app.route('/enseignants/add', methods=['GET', 'POST'])
+@app.route('/add/enseignants', methods=['GET', 'POST'])
 def add_enseignant():
     if request.method == 'GET':
         return render_template('add_enseignant.html')
@@ -78,10 +78,19 @@ def add_enseignant():
     email = request.form.get('email')
     tel = request.form.get('tel')
     login = request.form.get('login')
-    flash("Enseignant ajouté", "success")
+    password = util.password_hash('enseignant')
+    if login:
+        compte = {'login': login, 'password': password, 'role': 'vacataire'}
+        util.add_compte(compte)
+
+    enseignant = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'login': login}
+
+    util.add_enseignant(enseignant)
+
     return redirect(url_for('liste_enseignants'))
 
-@app.route('/contrats/add', methods=['GET', 'POST'])
+
+@app.route('/add/contrats', methods=['GET', 'POST'])
 def add_contrat():
     if request.method == 'GET':
         return render_template('add_contrat.html')

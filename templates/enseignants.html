@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Enseignants{% endblock %}
 
 {% block main %}
 <div class="container">
@@ -29,11 +29,12 @@
                     {% for elm in enseignants %}
                     <tr>
                         <th class="text-center" scope="row">{{ elm['id_enseignant']}}</th>
-                        <td>{{ elm['nom']}}</td>
-                        <td>{{ elm['prenom']}}</td>
-                        <td>{{ elm['email']}}</td>
-                        <td>{{ elm['tel']}}</td>
-                        <td>{{ elm['login']}}</td>
+                        <td>{{ elm['nom'] }}</td>
+                        <td>{{ elm['prenom'] }}</td>
+                        <td>{{ elm['email'] }}</td>
+                        <td>{{ elm['tel'] }}</td>
+                        <td>{{ elm['login'] }}</td>
+                        <td><a href="{{ url_for('delete_enseignant', id_enseignant=elm['id_enseignant'])}}">&cross;</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -43,6 +44,7 @@
                     </tr>
                     </tfoot>
                 </table>
+                <h3><a href="{{ url_for('add_enseignant') }}">Ajouter un enseignant</a></h3>
             </div>
         </div>
     </div>

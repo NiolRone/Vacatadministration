@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Contrats{% endblock %}
 {% block main %}
 <div class="container">
     <br>
@@ -30,6 +30,7 @@
                         <td>{{ elm['date_fin'] }}</td>
                         <td>{{ elm['id_vacataire'] }}</td>
                         <td>{{ elm['id_referent'] }}</td>
+                        <td><a href="{{ url_for('delete_contrat', id_contrat=elm['id_contrat'])}}">&cross;</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -39,6 +40,7 @@
                     </tr>
                     </tfoot>
                 </table>
+                <h3><a href="{{ url_for('add_contrat') }}">Ajouter un contrat</a></h3>
             </div>
         </div>
     </div>

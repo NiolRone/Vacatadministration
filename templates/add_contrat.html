@@ -12,6 +12,7 @@
             <div class="col-md-auto card bg-dark text-white" style="border-radius: 1rem; padding:10pt;">
                 <!-- Formulaire -->
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="row justify-content-md-center">
                         <div class="col-md-auto">
                             <div class="form-group">
@@ -30,14 +31,16 @@
                     <div class="row">
                         <div class="col-md-auto">
                             <div class="form-group">
-                                <label>Nom du référent</label>
-                                <input type="email" class="form-control" name="nom_referent" placeholder="Nom du réferent">
+                                 <!-- Temporaire (à modifier par la suite avec les noms) -->
+                                <label>Id du référent</label>
+                                <input type="number" class="form-control" name="id_referent" placeholder="Id du réferent">
                             </div>
                         </div>
                         <div class="col-md-auto">
                             <div class="form-group">
-                                <label>Nom du vacataire</label>
-                                <input type="text" class="form-control" name="nom_vacataire" placeholder="Nom du vacataire">
+                                <!-- Temporaire (à modifier par la suite avec les noms) -->
+                                <label>Id du vacataire</label>
+                                <input type="number" class="form-control" name="id_vacataire" placeholder="Id du vacataire">
                             </div>
                         </div>
                     </div>

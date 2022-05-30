@@ -20,7 +20,7 @@ csrf = CSRFProtect(app)
 # Routes
 @app.route("/")
 def home():
-    return render_template("home.html", vacataires=util.get_vacataires())
+    return render_template("vacataires.html", vacataires=util.get_all_vacataires())
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -69,6 +69,17 @@ def add_vacataire():
     return redirect(url_for('home'))
 
 
+@app.route('/del/vacataires/<id_vacataire>', methods=['GET', 'POST'])
+def delete_vacataire(id_vacataire):
+    data = util.get_vacataire(id_vacataire)
+    login = data[0]['login']
+    if login:
+        # à modifier avec une demande si l'on veut supprimé le compte associé
+        util.del_compte(login)
+    util.delete_vacataire(id_vacataire)
+    return redirect(url_for('home'))
+
+
 @app.route('/add/enseignants', methods=['GET', 'POST'])
 def add_enseignant():
     if request.method == 'GET':
@@ -80,7 +91,7 @@ def add_enseignant():
     login = request.form.get('login')
     password = util.password_hash('enseignant')
     if login:
-        compte = {'login': login, 'password': password, 'role': 'vacataire'}
+        compte = {'login': login, 'password': password, 'role': 'enseignant'}
         util.add_compte(compte)
 
     enseignant = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'login': login}
@@ -90,26 +101,44 @@ def add_enseignant():
     return redirect(url_for('liste_enseignants'))
 
 
+@app.route('/del/enseignants/<id_enseignant>', methods=['GET', 'POST'])
+def delete_enseignant(id_enseignant):
+    data = util.get_enseignant(id_enseignant)
+    login = data[0]['login']
+    if login:
+        # à modifier avec une demande si l'on veut supprimé le compte associé
+        util.del_compte(login)
+    util.delete_enseignant(id_enseignant)
+    return redirect(url_for('liste_enseignants'))
+
+
 @app.route('/add/contrats', methods=['GET', 'POST'])
 def add_contrat():
     if request.method == 'GET':
         return render_template('add_contrat.html')
     date_debut = request.form.get('date_deb')
     date_fin = request.form.get('date_fin')
-    nom_referent = request.form.get('nom_referent')
-    nom_vacataire = request.form.get('nom_vacataire')
-    flash("Contrat ajouté", "success")
-    return redirect(url_for('home'))
+    id_referent = request.form.get('id_referent')
+    id_vacataire = request.form.get('id_vacataire')
+    contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
+    util.add_contrat(contrat)
+    return redirect(url_for('liste_contrats'))
+
+
+@app.route('/del/contrats/<id_contrat>', methods=['GET', 'POST'])
+def delete_contrat(id_contrat):
+    util.delete_contrat(id_contrat)
+    return redirect(url_for('liste_contrats'))
 
 
 @app.route('/enseignants')
 def liste_enseignants():
-    return render_template(f'enseignants.html', enseignants=util.get_ensignants())
+    return render_template(f'enseignants.html', enseignants=util.get_all_enseignants())
 
 
 @app.route('/vacataires')
 def liste_vacataires():
-    return render_template(f'vacataires.html', vacataires=util.get_vacataires())
+    return render_template(f'vacataires.html', vacataires=util.get_all_vacataires())
 
 
 @app.route('/modules')
@@ -124,7 +153,7 @@ def liste_interventions():
 
 @app.route('/contrats')
 def liste_contrats():
-    return render_template(f'contrats.html', contrats=util.get_contrats())
+    return render_template(f'contrats.html', contrats=util.get_all_contrats())
 
 
 @app.route('/comptes')

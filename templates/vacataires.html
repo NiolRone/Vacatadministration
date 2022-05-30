@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Vacataires{% endblock %}
 
 {% block main %}
 <div class="container">
@@ -40,6 +40,7 @@
                         <td>{{ elm['employeur'] if elm.employeur}}</td>
                         <td>{{ elm['login'] if elm.login}}</td>
                         <td class="text-center"><input type="checkbox" {{'checked' if elm.recrutable}} onclick="return false"></td>
+                        <td><a href="{{ url_for('delete_vacataire', id_vacataire=elm['id_vacataire'])}}">&cross;</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -49,6 +50,7 @@
                     </tr>
                     </tfoot>
                 </table>
+                <h3><a href="{{ url_for('add_vacataire') }}">Ajouter un vacataire</a></h3>
             </div>
         </div>
     </div>

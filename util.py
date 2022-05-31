@@ -228,3 +228,9 @@ def check_login(login, password):
     user = get_user(login)
     return user is not None and password_verify(password, user['mdp'])
 
+def get_data(id, table):
+    db = get_db()
+    cursor = db.cursor()
+    dico = {'table': table, 'id': id}
+    cursor.execute(f"""SELECT * FROM {table} WHERE id_vacataire = :id""", dico)
+    return cursor.fetchone()

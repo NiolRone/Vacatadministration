@@ -68,7 +68,6 @@ def add_vacataire():
     util.add_vacataire(vacataire)
     return redirect(url_for('home'))
 
-
 @app.route('/del/vacataires/<id_vacataire>', methods=['GET', 'POST'])
 def delete_vacataire(id_vacataire):
     data = util.get_vacataire(id_vacataire)
@@ -78,6 +77,31 @@ def delete_vacataire(id_vacataire):
         util.del_compte(login)
     util.delete_vacataire(id_vacataire)
     return redirect(url_for('home'))
+
+@app.route('/edit/vacataires/<id_vacataire>', methods=['GET', 'POST'])
+def edit_vacataire(id_vacataire):
+    if request.method == 'GET':
+        data = util.get_data(id_vacataire, 'vacataires')
+        return render_template('edit_vacataire.html', data=data)
+    else:
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        email = request.form.get('email')
+        tel = request.form.get('tel')
+        statut = request.form.get('statut')
+        employeur = request.form.get('employeur')
+        login = request.form.get('login')
+        recrutable = request.form.get('recrutable')
+        password = util.password_hash('vacataire')
+        if login:
+            compte = {'login': login, 'password': password, 'role': 'vacataire'}
+            util.add_compte(compte)
+
+        vacataire = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'statut': statut,
+                     'employeur': employeur, 'login': login, 'recrutable': 1 if recrutable else 0}
+
+        util.update_vacataire(id_vacataire, vacataire)
+        return redirect(url_for('home'))
 
 
 @app.route('/add/enseignants', methods=['GET', 'POST'])
@@ -100,7 +124,6 @@ def add_enseignant():
 
     return redirect(url_for('liste_enseignants'))
 
-
 @app.route('/del/enseignants/<id_enseignant>', methods=['GET', 'POST'])
 def delete_enseignant(id_enseignant):
     data = util.get_enseignant(id_enseignant)
@@ -110,6 +133,27 @@ def delete_enseignant(id_enseignant):
         util.del_compte(login)
     util.delete_enseignant(id_enseignant)
     return redirect(url_for('liste_enseignants'))
+
+@app.route('/edit/enseignants/<id_enseignant>', methods=['GET', 'POST'])
+def edit_enseignant(id_enseignant):
+    if request.method == 'GET':
+        data = util.get_enseignant(id_enseignant)
+        return render_template('edit_enseignant.html', data=data)
+    else:
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        email = request.form.get('email')
+        tel = request.form.get('tel')
+        login = request.form.get('login')
+        password = util.password_hash('enseignant')
+        if login:
+            compte = {'login': login, 'password': password, 'role': 'enseignant'}
+            util.add_compte(compte)
+
+        enseignant = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'login': login}
+
+        util.update_enseignant(id_enseignant, enseignant)
+        return redirect(url_for('liste_enseignants'))
 
 
 @app.route('/add/contrats', methods=['GET', 'POST'])
@@ -124,11 +168,24 @@ def add_contrat():
     util.add_contrat(contrat)
     return redirect(url_for('liste_contrats'))
 
-
 @app.route('/del/contrats/<id_contrat>', methods=['GET', 'POST'])
 def delete_contrat(id_contrat):
     util.delete_contrat(id_contrat)
     return redirect(url_for('liste_contrats'))
+
+@app.route('/edit/contrats/<id_contrat>', methods=['GET', 'POST'])
+def edit_contrat(id_contrat):
+    if request.method == 'GET':
+        data = util.get_contrat(id_contrat)
+        return render_template('edit_contrat.html', data=data)
+    else:
+        date_debut = request.form.get('date_deb')
+        date_fin = request.form.get('date_fin')
+        id_referent = request.form.get('id_referent')
+        id_vacataire = request.form.get('id_vacataire')
+        contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
+        util.update_contrat(id_contrat, contrat)
+        return redirect(url_for('liste_contrats'))
 
 
 @app.route('/enseignants')

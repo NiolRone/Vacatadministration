@@ -123,7 +123,7 @@ def add_enseignant():
 @app.route('/del/enseignants/<id_enseignant>', methods=['GET', 'POST'])
 def delete_enseignant(id_enseignant):
     data = util.get_enseignant(id_enseignant)
-    login = data[0]['login']
+    login = data['login']
     if login:
         # à modifier avec une demande si l'on veut supprimé le compte associé
         util.del_compte(login)
@@ -131,26 +131,21 @@ def delete_enseignant(id_enseignant):
     return redirect(url_for('liste_enseignants'))
 
 
-@app.route('/edit/enseignants/<id_enseignant>', methods=['GET', 'POST'])
+@app.route('/edit/enseignants/<id_enseignant>')
 def edit_enseignant(id_enseignant):
-    if request.method == 'GET':
-        data = util.get_data(id_enseignant, 'enseignants')
-        return render_template('edit_enseignant.html', data=data)
-    else:
-        nom = request.form.get('nom')
-        prenom = request.form.get('prenom')
-        email = request.form.get('email')
-        tel = request.form.get('tel')
-        login = request.form.get('login')
-        password = util.password_hash('enseignant')
-        if login:
-            compte = {'login': login, 'password': password, 'role': 'enseignant'}
-            util.add_compte(compte)
-
-        enseignant = {'nom': nom, 'prenom': prenom, 'email': email, 'tel': tel, 'login': login}
-
-        util.update_enseignant(id_enseignant, enseignant)
+    enseignant = util.get_enseignant(id_enseignant)
+    if enseignant is None:
+        flash("Utilisateur Introuvable", "error")
         return redirect(url_for('liste_enseignants'))
+    return render_template('edit_enseignant.html', data=enseignant)
+
+
+@app.route('/update/enseignants/<id_enseignant>', methods=['POST'])
+def update_enseignant(id_enseignant):
+    enseignant = {'id_enseignant': id_enseignant, 'nom': request.form.get('nom'), 'prenom': request.form.get('prenom'),
+                  'email': request.form.get('email'), 'tel': request.form.get('tel')}
+    util.update_enseignant(enseignant)
+    return redirect(url_for('liste_enseignants'))
 
 
 @app.route('/add/contrats', methods=['GET', 'POST'])

@@ -64,7 +64,6 @@ def update_vacataire(vacataire):
         current_app.logger.error(f"Utilisateur pas mis à jour (n'existe pas)")
 
 
-
 def get_all_enseignants():
     """Get all enseignants from database"""
     db = get_db()
@@ -80,7 +79,7 @@ def get_enseignant(id_enseignant):
         cursor.execute("""SELECT * FROM enseignants WHERE id_enseignant = :id""", {'id': id_enseignant})
     except sqlite3.Error as e:
         current_app.logger.error(f"Pas d'enseignant avec l'identifiant {id_enseignant}")
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 def delete_enseignant(id_enseignant):
@@ -93,6 +92,19 @@ def delete_enseignant(id_enseignant):
         flash(f"Utilisateur {id_enseignant} supprimé", "error")
     else:
         current_app.logger.info(f'Utilisateur {id_enseignant} pas supprimé (n’existe pas)')
+
+
+def update_enseignant(enseignant):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""UPDATE enseignants SET nom = :nom, prenom = :prenom, email = :email, 
+                    tel = :tel WHERE id_enseignant = :id_enseignant""", enseignant)
+    db.commit()
+    if cursor.rowcount == 1:
+        flash(f"Utilisateur {enseignant['nom']} {enseignant['prenom']} mis à jour")
+        current_app.logger.info(f"Utilisateur {enseignant['nom'], enseignant['prenom']} mis à jour")
+    else:
+        current_app.logger.error(f"Utilisateur pas mis à jour (n'existe pas)")
 
 
 def get_modules():

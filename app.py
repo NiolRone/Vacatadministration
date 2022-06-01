@@ -154,13 +154,12 @@ def add_contrat():
         vacataires = util.get_all_vacataires()
         enseignants = util.get_all_enseignants()
         return render_template('add_contrat.html', vacataires=vacataires, enseignants=enseignants)
-    date_debut = request.form.get('date_deb')
+    date_deb = request.form.get('date_deb')
     date_fin = request.form.get('date_fin')
-    id_referent = util.get_id_enseignant(request.form.get('id_referent'))
-    id_vacataire = util.get_id_vacataire((request.form.get('id_vacataire'))
-
-    #contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
-    #util.add_contrat(contrat)
+    id_vacataire = request.form.get('id_vacataire')
+    id_referent = request.form.get('id_referent')
+    contrat = {'date_deb': date_deb, 'date_fin': date_fin, 'id_vacataire': id_vacataire, 'id_referent': id_referent}
+    util.add_contrat(contrat)
     return redirect(url_for('liste_contrats'))
 
 
@@ -188,13 +187,19 @@ def edit_contrat(id_contrat):
 @app.route('/add/interventions', methods=['GET', 'POST'])
 def add_intervention():
     if request.method == 'GET':
-        vacataires = util.get_all_vacataires()
-        enseignants = util.get_all_enseignants()
-        modules = util.get_all_modules()
-        return render_template('add_intervention.html', modules=modules)
+        contrats = util.get_all_contrats()
+        modules=util.get_all_modules()
+        return render_template('add_intervention.html', contrats=contrats, modules=modules)
     id_contrat = request.form.get('id_contrat')
     code_module = request.form.get('code_module')
     nbre_heures = request.form.get('nbre_heures')
+    intervention = {'id_contrat': id_contrat, 'code_module': code_module, 'nbre_heures': nbre_heures}
+    util.add_intervention(intervention)
+    return redirect(url_for('liste_interventions'))
+
+@app.route('/del/interventions/<id_intervention>', methods=['GET', 'POST'])
+def delete_intervention(id_intervention):
+    util.delete_intervention(id_intervention)
     return redirect(url_for('liste_interventions'))
 
 # Pages de visualisation

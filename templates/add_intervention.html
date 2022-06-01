@@ -17,19 +17,30 @@
                         <div class="col-md-auto">
                             <div class="form-group">
                                 <label>Code module</label>
-                                <select name="code_module" class="form-select">
+                                <select name="code_module" class="form-select form-select-lg mb-3">
                                     {% for module in modules %}
-                                    <option value="">{{module['intitule']}}</option>
+                                    <option value="{{module['code_module']}}">{{module['code_module']}} {{module['intitule']}}</option>
                                     {%endfor%}
                                 </select>
                             </div>
                         </div>
                     </div>
                     <hr>
+                    <div class="row justify-content-center">
                         <div class="col-md-auto">
                             <div class="form-group">
                                 <label>Nombre d'heures</label>
-                                <input type="float" class="form-control" name="Nombre d'heures">
+                                <input type="text" class="form-control form-control-lg" name="nbre_heures">
+                            </div>
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="form-group">
+                                <label>Contrat</label>
+                                <select name="id_contrat" class="form-select form-select-lg mb-3">
+                                    {% for contrat in contrats %}
+                                    <option value="{{contrat['id_contrat']}}">{{contrat['date_deb']}} --> {{contrat['date_fin']}}</option>
+                                    {%endfor%}
+                                </select>
                             </div>
                         </div>
                     </div>

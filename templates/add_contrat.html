@@ -32,9 +32,9 @@
                         <div class="col-md-auto">
                             <div class="form-group">
                                 <label>Enseignant référent</label>
-                                <select name="enseignant" class="form-select">
+                                <select name="id_referent" class="form-select form-select-lg mb-3">
                                     {% for enseignant in enseignants %}
-                                    <option value="">{{enseignant['nom']}} {{enseignant['prenom']}}</option>
+                                    <option value="{{enseignant['id_enseignant']}}">{{enseignant['nom']}} {{enseignant['prenom']}}</option>
                                     {%endfor%}
                                 </select>
                             </div>
@@ -42,10 +42,10 @@
                         <div class="col-md-auto">
                             <div class="form-group">
                                 <label>Enseignant vacataire</label>
-                                <select name="vacataire" class="form-select">
+                                <select name="id_vacataire" class="form-select form-select-lg mb-3">
                                     {% for vacataire in vacataires %}
                                     {% if vacataire.recrutable %}
-                                    <option value="">{{vacataire['nom']}} {{vacataire['prenom']}}</option>
+                                    <option value="{{vacataire['id_vacataire']}}">{{vacataire['nom']}} {{vacataire['prenom']}}</option>
                                     {%endif%}
                                     {%endfor%}
                                 </select>

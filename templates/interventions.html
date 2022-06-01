@@ -18,6 +18,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Code Module</th>
                         <th scope="col">Nombre d'heures</th>
+                        <th scope="col">Supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -26,6 +27,7 @@
                         <th class="text-center" scope="row">{{ elm['id_contrat']}}</th>
                         <td>{{ elm['code_module']}}</td>
                         <td>{{ elm['nbre_heures'] }}</td>
+                        <td><a href="{{ url_for('delete_intervention', id_intervention=elm['id_intervention'], code_module=elm['code_module'])}}">&cross;</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -35,7 +37,7 @@
                     </tr>
                     </tfoot>
                 </table>
-                <a class="btn btn-outline-success" href="#">Ajouter une intervention</a>
+                <a class="btn btn-outline-success" href="{{url_for('add_intervention')}}">Ajouter une intervention</a>
             </div>
         </div>
     </div>

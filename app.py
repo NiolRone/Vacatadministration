@@ -72,12 +72,11 @@ def add_vacataire():
 @app.route('/del/vacataires/<id_vacataire>', methods=['GET', 'POST'])
 def delete_vacataire(id_vacataire):
     data = util.get_vacataire(id_vacataire)
-    login = data['login']
-    if login:
-        # à modifier avec une demande si l'on veut supprimé le compte associé
-        util.del_compte(login)
-    util.delete_vacataire(id_vacataire)
-    return redirect(url_for('home'))
+    if request.method == 'GET':
+        return render_template('del_vacataire.html', data=data)
+    else:
+        util.delete_vacataire(id_vacataire)
+        return redirect(url_for('home'))
 
 
 @app.route('/edit/vacataires/<id_vacataire>')
@@ -123,12 +122,11 @@ def add_enseignant():
 @app.route('/del/enseignants/<id_enseignant>', methods=['GET', 'POST'])
 def delete_enseignant(id_enseignant):
     data = util.get_enseignant(id_enseignant)
-    login = data['login']
-    if login:
-        # à modifier avec une demande si l'on veut supprimé le compte associé
-        util.del_compte(login)
-    util.delete_enseignant(id_enseignant)
-    return redirect(url_for('liste_enseignants'))
+    if request.method == 'GET':
+        return render_template('del_enseignant.html', data=data)
+    else:
+        util.delete_enseignant(id_enseignant)
+        return redirect(url_for('liste_enseignants'))
 
 
 @app.route('/edit/enseignants/<id_enseignant>')
@@ -168,21 +166,6 @@ def delete_contrat(id_contrat):
     util.delete_contrat(id_contrat)
     return redirect(url_for('liste_contrats'))
 
-
-@app.route('/edit/contrats/<id_contrat>', methods=['GET', 'POST'])
-def edit_contrat(id_contrat):
-    if request.method == 'GET':
-        data = util.get_data(id_contrat, 'contrats')
-        return render_template('edit_contrat.html', data=data)
-    else:
-        date_debut = request.form.get('date_deb')
-        date_fin = request.form.get('date_fin')
-        id_referent = request.form.get('id_referent')
-        id_vacataire = request.form.get('id_vacataire')
-        contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent,
-                   'id_vacataire': id_vacataire}
-        util.update_contrat(id_contrat, contrat)
-        return redirect(url_for('liste_contrats'))
 
 @app.route('/add/interventions', methods=['GET', 'POST'])
 def add_intervention():

@@ -156,13 +156,16 @@ def edit_enseignant(id_enseignant):
 @app.route('/add/contrats', methods=['GET', 'POST'])
 def add_contrat():
     if request.method == 'GET':
-        return render_template('add_contrat.html')
+        vacataires = util.get_all_vacataires()
+        enseignants = util.get_all_enseignants()
+        return render_template('add_contrat.html', vacataires=vacataires, enseignants=enseignants)
     date_debut = request.form.get('date_deb')
     date_fin = request.form.get('date_fin')
-    id_referent = request.form.get('id_referent')
-    id_vacataire = request.form.get('id_vacataire')
-    contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
-    util.add_contrat(contrat)
+    id_referent = util.get_id_enseignant(request.form.get('id_referent'))
+    id_vacataire = util.get_id_vacataire((request.form.get('id_vacataire'))
+
+    #contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
+    #util.add_contrat(contrat)
     return redirect(url_for('liste_contrats'))
 
 
@@ -187,6 +190,17 @@ def edit_contrat(id_contrat):
         util.update_contrat(id_contrat, contrat)
         return redirect(url_for('liste_contrats'))
 
+@app.route('/add/interventions', methods=['GET', 'POST'])
+def add_intervention():
+    if request.method == 'GET':
+        vacataires = util.get_all_vacataires()
+        enseignants = util.get_all_enseignants()
+        modules = util.get_all_modules()
+        return render_template('add_intervention.html', modules=modules)
+    id_contrat = request.form.get('id_contrat')
+    code_module = request.form.get('code_module')
+    nbre_heures = request.form.get('nbre_heures')
+    return redirect(url_for('liste_interventions'))
 
 # Pages de visualisation
 
@@ -203,7 +217,7 @@ def liste_vacataires():
 
 @app.route('/modules')
 def liste_modules():
-    return render_template(f'modules.html', modules=util.get_modules())
+    return render_template(f'modules.html', modules=util.get_all_modules())
 
 
 @app.route('/interventions')

@@ -95,7 +95,7 @@ def delete_enseignant(id_enseignant):
         current_app.logger.info(f'Utilisateur {id_enseignant} pas supprimé (n’existe pas)')
 
 
-def get_modules():
+def get_all_modules():
     """Get all modules from database"""
     db = get_db()
     cursor = db.cursor()
@@ -249,4 +249,18 @@ def get_data(id, table):
     cursor = db.cursor()
     dico = {'table': table, 'id': id}
     cursor.execute(f"""SELECT * FROM {table} WHERE id_vacataire = :id""", dico)
+    return cursor.fetchone()
+
+
+def get_id_vacataire(nom_vacataire):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT id_vacataire FROM vacataires WHERE nom = :nom_vacataire""", {'nom': nom_vacataire}
+    return cursor.fetchone()
+
+
+def get_id_enseignant(nom_enseignant):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""SELECT id_enseignant FROM enseignants WHERE nom = :nom_vacataire""", {'nom': nom_enseignant}
     return cursor.fetchone()

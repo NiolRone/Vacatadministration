@@ -28,19 +28,27 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-md-auto">
                             <div class="form-group">
-                                 <!-- Temporaire (à modifier par la suite avec les noms) -->
-                                <label>Id du référent</label>
-                                <input type="number" class="form-control" name="id_referent" placeholder="Id du réferent">
+                                <label>Enseignant référent</label>
+                                <select name="enseignant" class="form-select">
+                                    {% for enseignant in enseignants %}
+                                    <option value="">{{enseignant['nom']}} {{enseignant['prenom']}}</option>
+                                    {%endfor%}
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-auto">
                             <div class="form-group">
-                                <!-- Temporaire (à modifier par la suite avec les noms) -->
-                                <label>Id du vacataire</label>
-                                <input type="number" class="form-control" name="id_vacataire" placeholder="Id du vacataire">
+                                <label>Enseignant vacataire</label>
+                                <select name="vacataire" class="form-select">
+                                    {% for vacataire in vacataires %}
+                                    {% if vacataire.recrutable %}
+                                    <option value="">{{vacataire['nom']}} {{vacataire['prenom']}}</option>
+                                    {%endif%}
+                                    {%endfor%}
+                                </select>
                             </div>
                         </div>
                     </div>

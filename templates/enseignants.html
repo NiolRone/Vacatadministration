@@ -34,7 +34,12 @@
                         <td>{{ elm['email'] }}</td>
                         <td>{{ elm['tel'] }}</td>
                         <td>{{ elm['login'] }}</td>
-                        <td><a href="{{ url_for('delete_enseignant', id_enseignant=elm['id_enseignant'])}}">&cross;</a></td>
+                        <td><a href="{{ url_for('edit_enseignant', id_enseignant=elm['id_enseignant'])}}">
+                            <button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button>
+                        </a></td>
+                        <td><a href="{{ url_for('delete_enseignant', id_enseignant=elm['id_enseignant']) }}">
+                            <button type="button" class="btn btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                        </a></td>
                     </tr>
                     {% endfor %}
                     </tbody>

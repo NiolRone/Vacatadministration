@@ -30,7 +30,9 @@
                         <td>{{ elm['date_fin'] }}</td>
                         <td>{{ elm['id_vacataire'] }}</td>
                         <td>{{ elm['id_referent'] }}</td>
-                        <td><a href="{{ url_for('delete_contrat', id_contrat=elm['id_contrat'])}}">&cross;</a></td>
+                        <td><a href="{{ url_for('delete_contrat', id_contrat=elm['id_contrat']) }}">
+                            <button type="button" class="btn btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                        </a></td>
                     </tr>
                     {% endfor %}
                     </tbody>

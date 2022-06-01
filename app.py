@@ -157,7 +157,7 @@ def add_contrat():
     date_debut = request.form.get('date_deb')
     date_fin = request.form.get('date_fin')
     id_referent = util.get_id_enseignant(request.form.get('id_referent'))
-    id_vacataire = util.get_id_vacataire((request.form.get('id_vacataire'))
+    id_vacataire = util.get_id_vacataire((request.form.get('id_vacataire')))
 
     #contrat = {'date_deb': date_debut, 'date_fin': date_fin, 'id_referent': id_referent, 'id_vacataire': id_vacataire}
     #util.add_contrat(contrat)

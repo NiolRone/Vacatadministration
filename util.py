@@ -107,7 +107,7 @@ def update_enseignant(enseignant):
         current_app.logger.error(f"Utilisateur pas mis à jour (n'existe pas)")
 
 
-def get_modules():
+def get_all_modules():
     """Get all modules from database"""
     db = get_db()
     cursor = db.cursor()
@@ -153,9 +153,23 @@ def add_contrat(contrat):
     except sqlite3.Error as e:
         print(e)
         # à modifier
-        flash('Une erreur est survenu', "error")
+        flash('Une erreur est survenue', "error")
         current_app.logger.error(f"Impossible d'ajouter {contrat}")
 
+def add_intervention(intervention):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("""INSERT INTO interventions (id_contrat, code_module, nbre_heures) 
+        VALUES (:id_contrat, :code_module, :nbre_heures)""", intervention)
+        current_app.logger.info(f'Intervention {intervention} ajoutée')
+        db.commit()
+        flash("Intervention ajoutée", "success")
+    except sqlite3.Error as e:
+        print(e)
+        # à modifier
+        flash('Une erreur est survenue', "error")
+        current_app.logger.error(f"Impossible d'ajouter {intervention}")
 
 def delete_contrat(id_contrat):
     db = get_db()
@@ -167,6 +181,17 @@ def delete_contrat(id_contrat):
         flash(f"Contrat {id_contrat} supprimé", "error")
     else:
         current_app.logger.info(f'Contrat {id_contrat} pas supprimé (n’existe pas)')
+
+def delete_intervention(id_intervention, code_module):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""DELETE FROM interventions WHERE id_intervention = :id and code_module = :code_module""", {'id': id_intervention, 'code_module': code_module})
+    db.commit()
+    if cursor.rowcount == 1:
+        current_app.logger.info(f'Intervention {id_intervention} supprimé')
+        flash(f"Intervention {id_intervention} supprimée", "error")
+    else:
+        current_app.logger.info(f'Intervention {id_intervention} pas supprimée (n’existe pas)')
 
 
 def get_comptes():
@@ -262,3 +287,4 @@ def get_data(id, table):
     dico = {'table': table, 'id': id}
     cursor.execute(f"""SELECT * FROM {table} WHERE id_vacataire = :id""", dico)
     return cursor.fetchone()
+

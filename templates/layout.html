@@ -20,8 +20,14 @@
             <a class="navbar-brand" href="{{url_for('liste_vacataires')}}">Vacataires</a>
             <a class="navbar-brand" href="{{url_for('liste_enseignants')}}">Enseignants</a>
             <a class="navbar-brand" href="{{url_for('liste_contrats')}}">Contrats</a>
+            <a class="navbar-brand" href="{{url_for('liste_interventions')}}">Interventions</a>
+            <a class="navbar-brand" href="{{url_for('liste_comptes')}}">Comptes</a>
             <span class="navbar-brand">{%if 'login' in session%} Vous êtes connecté en tant que : {{session['login']}} {%endif%}</span>
-            {%if 'login' in session%} <a href="{{url_for('logout')}}" class="btn btn-outline-danger">Se déconnecter</a>{%endif%}
+            {%if 'login' in session%}
+            <a href="{{url_for('logout')}}" class="btn btn-outline-danger">Se déconnecter</a>
+            {%else%}
+            <a href="{{url_for('login')}}" class="btn btn-outline-success">Se connecter</a>
+            {%endif%}
         </div>
     </nav>
 

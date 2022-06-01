@@ -137,7 +137,7 @@ def delete_enseignant(id_enseignant):
 @app.route('/edit/enseignants/<id_enseignant>', methods=['GET', 'POST'])
 def edit_enseignant(id_enseignant):
     if request.method == 'GET':
-        data = util.get_enseignant(id_enseignant)
+        data = util.get_data(id_enseignant, 'enseignants')
         return render_template('edit_enseignant.html', data=data)
     else:
         nom = request.form.get('nom')
@@ -176,7 +176,7 @@ def delete_contrat(id_contrat):
 @app.route('/edit/contrats/<id_contrat>', methods=['GET', 'POST'])
 def edit_contrat(id_contrat):
     if request.method == 'GET':
-        data = util.get_contrat(id_contrat)
+        data = util.get_data(id_contrat, 'contrats')
         return render_template('edit_contrat.html', data=data)
     else:
         date_debut = request.form.get('date_deb')

@@ -35,7 +35,7 @@ def get_vacataire(id_vacataire):
         cursor.execute("""SELECT * FROM vacataires WHERE id_vacataire = :id""", {'id': id_vacataire})
     except sqlite3.Error as e:
         current_app.logger.error(f"Pas de vacataire avec l'identifiant {id_vacataire}")
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 def delete_vacataire(id_vacataire):
@@ -48,6 +48,21 @@ def delete_vacataire(id_vacataire):
         flash(f"Utilisateur {id_vacataire} supprimé", "error")
     else:
         current_app.logger.info(f'Utilisateur {id_vacataire} pas supprimé (n’existe pas)')
+
+
+def update_vacataire(vacataire):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""UPDATE vacataires SET nom = :nom, prenom = :prenom, email = :email, 
+                    tel = :tel, statut = :statut, employeur = :employeur, recrutable = :recrutable 
+                    WHERE id_vacataire = :id_vacataire""", vacataire)
+    db.commit()
+    if cursor.rowcount == 1:
+        flash(f"Utilisateur {vacataire['nom']} {vacataire['prenom']} mis à jour")
+        current_app.logger.info(f"Utilisateur {vacataire['nom'], vacataire['prenom']} mis à jour")
+    else:
+        current_app.logger.error(f"Utilisateur pas mis à jour (n'existe pas)")
+
 
 
 def get_all_enseignants():
@@ -227,6 +242,7 @@ def check_login(login, password):
     """Check if login and password are correct"""
     user = get_user(login)
     return user is not None and password_verify(password, user['mdp'])
+
 
 def get_data(id, table):
     db = get_db()

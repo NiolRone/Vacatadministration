@@ -25,19 +25,19 @@
     <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
         <ul class="navbar-nav w-100 justify-content-center">
                 <li class="nav-item">
-                <a class="nav-link" href="{{url_for('liste_vacataires')}}">Vacataires</a>
+                <a class="nav-link {% if endpoint == 'vacataires' %} active {% endif %}" href="{{url_for('liste_vacataires')}}">Vacataires</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('liste_enseignants')}}">Enseignants</a>
+                    <a class="nav-link {% if endpoint == 'enseignants' %} active {% endif %}" href="{{url_for('liste_enseignants')}}">Enseignants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('liste_contrats')}}">Contrats</a>
+                    <a class="nav-link {% if endpoint == 'contrats' %} active {% endif %}" href="{{url_for('liste_contrats')}}">Contrats</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('liste_interventions')}}">Interventions</a>
+                    <a class="nav-link {% if endpoint == 'interventions' %} active {% endif %}" href="{{url_for('liste_interventions')}}">Interventions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('liste_comptes')}}">Comptes</a>
+                    <a class="nav-link {% if endpoint == 'comptes' %} active {% endif %}" href="{{url_for('liste_comptes')}}">Comptes</a>
                 </li>
         </ul>
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end">

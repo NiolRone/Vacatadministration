@@ -28,7 +28,9 @@
                         <th class="text-center" scope="row">{{ elm['id_contrat']}}</th>
                         <td>{{ elm['code_module']}}</td>
                         <td>{{ elm['nbre_heures'] }}</td>
-                        <td><a href="{{ url_for('delete_intervention', id_intervention=elm['id_intervention'], code_module=elm['code_module'])}}">&cross;</a></td>
+                        <td><a class="btn btn-outline-danger" href="{{ url_for('delete_intervention', id_intervention=elm['id_intervention'], code_module=elm['code_module'])}}">
+                            <i class="bi bi-trash-fill"></i>
+                        </a></td>
                     </tr>
                     {% endfor %}
                     </tbody>

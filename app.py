@@ -75,6 +75,8 @@ def delete_vacataire(id_vacataire):
     if request.method == 'GET':
         return render_template('del_vacataire.html', data=data)
     else:
+        if request.form.get('compte'):
+            util.delete_compte(data['login'])
         util.delete_vacataire(id_vacataire)
         return redirect(url_for('home'))
 
@@ -125,6 +127,8 @@ def delete_enseignant(id_enseignant):
     if request.method == 'GET':
         return render_template('del_enseignant.html', data=data)
     else:
+        if request.form.get('compte'):
+            util.delete_compte(data['login'])
         util.delete_enseignant(id_enseignant)
         return redirect(url_for('liste_enseignants'))
 
@@ -184,6 +188,28 @@ def add_intervention():
 def delete_intervention(id_intervention):
     util.delete_intervention(id_intervention)
     return redirect(url_for('liste_interventions'))
+
+
+@app.route('/add/comptes', methods=['GET', 'POST'])
+def add_compte():
+    if request.method == 'GET':
+        return render_template('add_compte.html')
+    login = request.form.get('login')
+    password = util.password_hash(request.form.get('password'))
+    role = request.form.get('role')
+    compte = {'login': login, 'password': password, 'role': role}
+    util.add_compte(compte)
+    return redirect(url_for('liste_comptes'))
+
+
+@app.route('/del/comptes/<login>', methods=['GET', 'POST'])
+def delete_compte(login):
+    if request.method == 'GET':
+        data = util.get_compte(login)
+        return render_template('del_compte.html', data=data)
+    util.delete_compte(login)
+    return redirect(url_for('liste_comptes'))
+
 
 # Pages de visualisation
 

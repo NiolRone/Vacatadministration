@@ -18,6 +18,7 @@
                     <tr>
                         <th scope="col">Login</th>
                         <th scope="col">Role</th>
+                        <th scope="col">Supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,9 @@
                     <tr>
                         <th>{{ elm['login']}}</th>
                         <td>{{ elm['role']}}</td>
+                        <td><a href="{{ url_for('delete_compte', login=elm['login']) }}">
+                            <button type="button" class="btn btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                        </a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -34,7 +38,7 @@
                     </tr>
                     </tfoot>
                 </table>
-                <a class="btn btn-outline-success" href="#">Ajouter un compte</a>
+                <a class="btn btn-outline-success" href="{{url_for('add_compte')}}">Ajouter un compte</a>
             </div>
         </div>
     </div>

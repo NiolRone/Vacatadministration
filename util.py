@@ -214,7 +214,7 @@ def add_compte(compte):
         current_app.logger.error(f"Impossible d'ajouter {compte}")
 
 
-def del_compte(login):
+def delete_compte(login):
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""DELETE FROM comptes WHERE login = :login""", {'login': login})
@@ -281,10 +281,13 @@ def check_login(login, password):
     return user is not None and password_verify(password, user['mdp'])
 
 
-def get_data(id, table):
+def get_compte(login):
+    """Get data of an user by login"""
     db = get_db()
     cursor = db.cursor()
-    dico = {'table': table, 'id': id}
-    cursor.execute(f"""SELECT * FROM {table} WHERE id_vacataire = :id""", dico)
-    return cursor.fetchone()
+    cursor.execute("""SELECT login, mdp, role FROM comptes
+                          WHERE login = :login""",
+                   {'login': login})
+    user = cursor.fetchone()
+    return user
 

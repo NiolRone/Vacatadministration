@@ -153,8 +153,8 @@ def update_enseignant(id_enseignant):
 @app.route('/add/contrats', methods=['GET', 'POST'])
 def add_contrat():
     if request.method == 'GET':
-        vacataires = util.get_all_vacataires()
-        enseignants = util.get_all_enseignants()
+        vacataires = util.get_vacataire_sans_contrats()
+        enseignants = util.get_enseignant_sans_contrats()
         return render_template('add_contrat.html', vacataires=vacataires, enseignants=enseignants)
     date_deb = request.form.get('date_deb')
     date_fin = request.form.get('date_fin')
@@ -183,6 +183,7 @@ def add_intervention():
     intervention = {'id_contrat': id_contrat, 'code_module': code_module, 'nbre_heures': nbre_heures}
     util.add_intervention(intervention)
     return redirect(url_for('liste_interventions'))
+
 
 @app.route('/del/interventions/<id_intervention>', methods=['GET', 'POST'])
 def delete_intervention(id_intervention):
@@ -231,12 +232,12 @@ def liste_modules():
 
 @app.route('/interventions')
 def liste_interventions():
-    return render_template(f'interventions.html', interventions=util.get_interventions())
+    return render_template(f'interventions.html', interventions=util.get_all_interventions())
 
 
 @app.route('/contrats')
 def liste_contrats():
-    return render_template(f'contrats.html', contrats=util.get_all_contrats())
+    return render_template(f'contrats.html', contrats=util.get_all_contrats_details())
 
 
 @app.route('/comptes')

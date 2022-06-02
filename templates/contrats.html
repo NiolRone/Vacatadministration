@@ -19,8 +19,8 @@
                         <th scope="col">Id</th>
                         <th scope="col">Début</th>
                         <th scope="col">Fin</th>
-                        <th scope="col">Id Vacataire</th>
-                        <th scope="col">Id Referent</th>
+                        <th scope="col">Vacataire</th>
+                        <th scope="col">Referent</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,8 +29,8 @@
                         <th class="text-center" scope="row">{{ elm['id_contrat']}}</th>
                         <td>{{ elm['date_deb']}}</td>
                         <td>{{ elm['date_fin'] }}</td>
-                        <td>{{ elm['id_vacataire'] }}</td>
-                        <td>{{ elm['id_referent'] }}</td>
+                        <td>{{ elm['nom_vac'] }} {{ elm['prenom_vac'] }}</td>
+                        <td>{{ elm['nom_ens'] }} {{ elm['prenom_ens'] }}</td>
                         <td><a href="{{ url_for('delete_contrat', id_contrat=elm['id_contrat']) }}">
                             <button type="button" class="btn btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
                         </a></td>
@@ -39,7 +39,7 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th colspan="3">{{contrats | count}} Contrats</th>
+                        <th colspan="6">{{contrats | count}} Contrats</th>
                     </tr>
                     </tfoot>
                 </table>
